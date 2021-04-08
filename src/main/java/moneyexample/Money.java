@@ -1,6 +1,6 @@
 package moneyexample;
 
-class Money {
+class Money implements Expression {
     protected int amount;
     protected String currency;
 
@@ -18,23 +18,32 @@ class Money {
     }
 
 
-   Money times(int multiplier){
-        return new Money(amount* multiplier,currency) ;
-   }
+    Money times(int multiplier) {
+        return new Money(amount * multiplier, currency);
+    }
 
     @Override
     public boolean equals(Object object) {
-        Money money = (Money) object ;
-        return amount== money.amount
+        Money money = (Money) object;
+        return amount == money.amount
                 && currency().equals(money.currency());
     }
 
-    protected String currency(){
+    protected String currency() {
         return currency;
     }
 
     @Override
     public String toString() {
-        return amount+" "+currency;
+        return amount + " " + currency;
+    }
+
+    Expression plus(Money addend) {
+        return new Sum(this,addend);
+    }
+
+    @Override
+    public Money reduce(String to) {
+        return this;
     }
 }

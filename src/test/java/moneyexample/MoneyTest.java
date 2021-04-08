@@ -26,5 +26,33 @@ public class MoneyTest {
         assertEquals("CHF",Money.franc(1).currency());
     }
 
+    public void testSimpleAddition(){
+        var five = Money.dollar(5);
+        Expression sum = five.plus(five);
+        Bank bank = new Bank();
+        Money reduced = bank.reduce(sum, "USD");
+        assertEquals(reduced, Money.dollar(10));
+    }
+
+    public void testPlusReturnsSum(){
+        Money five = Money.dollar(5);
+        Expression result = five.plus(five);
+        Sum sum = (Sum) result;
+        assertEquals(sum.augend,five);
+        assertEquals(sum.addend,five);
+    }
+
+    public void testReduceSum(){
+        Expression sum = new Sum(Money.dollar(3),Money.dollar(4));
+        Bank bank = new Bank();
+        Money result = bank.reduce(sum,"USD");
+        assertEquals(result, Money.dollar(7));
+    }
+
+    public void testReduceMoney(){
+        Bank bank = new Bank();
+        Money result = bank.reduce(Money.dollar(1),"USD");
+        assertEquals(result, Money.dollar(1));
+    }
 
 }
